@@ -7,8 +7,7 @@ use anyhow::{bail, Context};
 use crate::config::serialize_config;
 use crate::constants::{
     DEFAULT_FRAMEWORK_IDL_PATH, DEFAULT_FRAMEWORK_IDL_SPEC, DEFAULT_FRAMEWORK_VERSION,
-    DEFAULT_LSSA_PIN, DEFAULT_WALLET_BINARY, FRAMEWORK_KIND_DEFAULT, FRAMEWORK_KIND_LEZ_FRAMEWORK,
-    LSSA_URL, VERSION,
+    DEFAULT_LSSA_PIN, FRAMEWORK_KIND_DEFAULT, FRAMEWORK_KIND_LEZ_FRAMEWORK, LSSA_URL, VERSION,
 };
 use crate::model::{Config, FrameworkConfig, FrameworkIdlConfig, LocalnetConfig, RepoRef};
 use crate::project::default_cache_root;
@@ -77,7 +76,7 @@ pub(crate) fn cmd_new(cmd: NewCommand) -> DynResult<()> {
         )?;
         lssa_vendor
     } else {
-        let lssa_cached = cache_root.join("repos/lssa");
+        let lssa_cached = cache_root.join("repos/lssa").join(DEFAULT_LSSA_PIN);
         sync_repo_to_pin_at_path_with_opts(
             &lssa_cached,
             &lssa_source,
@@ -97,7 +96,6 @@ pub(crate) fn cmd_new(cmd: NewCommand) -> DynResult<()> {
             path: lssa_repo_path.display().to_string(),
             pin: DEFAULT_LSSA_PIN.to_string(),
         },
-        wallet_binary: DEFAULT_WALLET_BINARY.to_string(),
         wallet_home_dir: ".scaffold/wallet".to_string(),
         framework: FrameworkConfig {
             kind: template_variant.clone(),
